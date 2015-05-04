@@ -214,30 +214,12 @@ NightwatchRenderer.prototype.shortUrl = function(url) {
 NightwatchRenderer.prototype.startUrl = function(item) {
   var url = this.pyrepr(this.rewriteUrl(item.url));
   this.stmt(".resizeWindow("+item.width+", "+item.height+")", 3);
-  //this.stmt("casper.on('page.error', function(msg, trace) {", 0);
-  //this.stmt("this.echo('Error: ' + msg, 'ERROR');", 1);
-  //this.stmt("for(var i=0; i&lt;trace.length; i++) {", 1);
-  //this.stmt("var step = trace[i];", 2);
-  //this.stmt("this.echo('   ' + step.file + ' (line ' + step.line + ')', 'ERROR');", 2);
-  //this.stmt("}", 1);
-  //this.stmt("});", 0);
-  //this.stmt("casper.test.begin('Resurrectio test', function(test) {", 0);
-  //this.stmt("casper.start(" + url + ");");
+  this.stmt(".url("+url+")", 3);
 }
+
 NightwatchRenderer.prototype.openUrl = function(item) {
   var url = this.pyrepr(this.rewriteUrl(item.url));
   this.stmt(".url('"+item.width+", "+item.height+"')", 3);
-  //var history = this.history;
-  //// if the user apparently hit the back button, render the event as such
-  //if (url == history[history.length - 2]) {
-  //  this.stmt('casper.then(function() {');
-  //  this.stmt('    this.back();');
-  //  this.stmt('});');
-  //  history.pop();
-  //  history.pop();
-  //} else {
-  //  this.stmt("casper.thenOpen(" + url + ");");
-  //}
 }
 
 NightwatchRenderer.prototype.pageLoad = function(item) {
@@ -294,21 +276,22 @@ NightwatchRenderer.prototype.getLinkXPath = function(item) {
   return way;
 }
 
+// DnD template
 NightwatchRenderer.prototype.mousedrag = function(item) {
   if(this.with_xy) {
-    this.stmt('casper.then(function() {');
-    this.stmt('    this.mouse.down('+ item.before.x + ', '+ item.before.y +');');
-    this.stmt('    this.mouse.move('+ item.x + ', '+ item.y +');');
-    this.stmt('    this.mouse.up('+ item.x + ', '+ item.y +');');
-    this.stmt('});');
+    this.stmt('.moveTo(null, '+ item.before.x + ', '+ item.before.y +')', 3);
+    this.stmt('.mouseButtonDown(0)', 3);
+    this.stmt('.moveTo(null, ('+ item.x + ', '+ item.y +')', 3);
+    this.stmt('.mouseButtonUp(0)', 3);
   }
 }
+
 NightwatchRenderer.prototype.click = function(item) {
   var tag = item.info.tagName.toLowerCase();
   if(this.with_xy && !(tag == 'a' || tag == 'input' || tag == 'button')) {
-    this.stmt('casper.then(function() {');
-    this.stmt('    this.mouse.click('+ item.x + ', '+ item.y +');');
-    this.stmt('});');
+    this.stmt('.moveTo(null, '+ item.x + ', '+ item.y +')', 3);
+    this.stmt('.mouseButtonDown(0)', 3);
+    this.stmt('.mouseButtonUp(0)', 3);
   } else {
     var selector;
     if (tag == 'a') {
@@ -326,14 +309,6 @@ NightwatchRenderer.prototype.click = function(item) {
     }
     this.stmt('.waitForElementPresent('+ selector + ')', 3);
     this.stmt('.click('+ selector + ')', 3);
-    //this.stmt('casper.waitForSelector('+ selector + ',');
-    //this.stmt('    function success() {');
-    //this.stmt('        test.assertExists('+ selector + ');');
-    //this.stmt('        this.click('+ selector + ');');
-    //this.stmt('    },');
-    //this.stmt('    function fail() {');
-    //this.stmt('        test.assertExists(' + selector + ');')
-    //this.stmt('});');
   }
 }
 
@@ -355,14 +330,6 @@ NightwatchRenderer.prototype.keypress = function(item) {
   var text = item.text.replace('\n','').replace('\r', '\\r');
   this.stmt('.waitForElementPresent("' + this.getControl(item) + '")', 3);
   this.stmt('.setValue("' + this.getControl(item) + '", "' + text + '")', 3);
-
-  //this.stmt('casper.waitForSelector("' + this.getControl(item) + '",');
-  //this.stmt('    function success() {');
-  //this.stmt('        this.sendKeys("' + this.getControl(item) + '", "' + text + '");');
-  //this.stmt('    },');
-  //this.stmt('    function fail() {');
-  //this.stmt('        test.assertExists("' + this.getControl(item) + '");')
-  //this.stmt('});');
 }
 
 NightwatchRenderer.prototype.submit = function(item) {
@@ -372,37 +339,28 @@ NightwatchRenderer.prototype.submit = function(item) {
 }
 
 NightwatchRenderer.prototype.screenShot = function(item) {
-  // wait 1 second is not the ideal solution, but will be enough most
-  // part of time. For slow pages, an assert before capture will make
-  // sure evrything is properly loaded before screenshot.
-  this.stmt('casper.wait(1000);');
-  this.stmt('casper.then(function() {');
-  this.stmt('    this.captureSelector("screenshot'+this.screen_id+'.png", "html");');
-  this.stmt('});');
+  this.stmt('.saveScreenShot("screenshot'+this.screen_id+'.png")', 3);
   this.screen_id = this.screen_id + 1;
 }
 
 NightwatchRenderer.prototype.comment = function(item) {
-  var lines = item.text.split('\n');
-  this.stmt('casper.then(function() {');
-  for (var i=0; i < lines.length; i++) {
-    this.stmt('    test.comment("'+lines[i]+'");');
-  }
-  this.stmt('});');
+  this.stmt('// comment? todo: find out this case', 3);
+  //var lines = item.text.split('\n');
+  //this.stmt('casper.then(function() {');
+  //for (var i=0; i < lines.length; i++) {
+  //  this.stmt('    test.comment("'+lines[i]+'");');
+  //}
+  //this.stmt('});');
 }
 
 NightwatchRenderer.prototype.checkPageTitle = function(item) {
   var title = this.pyrepr(item.title, true);
-  this.stmt('casper.then(function() {');
-  this.stmt('    test.assertTitle('+ title +');');
-  this.stmt('});');
+  this.stmt('.assert.title(' + title + ')', 3);
 }
 
 NightwatchRenderer.prototype.checkPageLocation = function(item) {
   var url = this.regexp_escape(item.url);
-  this.stmt('casper.then(function() {');
-  this.stmt('    test.assertUrlMatch(/^'+ url +'$/);');
-  this.stmt('});');
+  this.stmt('.assert.urlContains("' + url + '")');
 }
 
 NightwatchRenderer.prototype.checkTextPresent = function(item) {
@@ -443,14 +401,12 @@ NightwatchRenderer.prototype.checkText = function(item) {
 NightwatchRenderer.prototype.checkHref = function(item) {
   var href = this.pyrepr(this.shortUrl(item.info.href));
   var xpath_selector = this.getLinkXPath(item);
-  if(xpath_selector) {
+  if(xpath_selector) { // todo: add switcher for xpath/css modes
     selector = 'x("//a['+xpath_selector+' and @href='+ href +']")';
   } else {
     selector = item.info.selector+'[href='+ href +']';
   }
-    this.stmt('casper.then(function() {');
-    this.stmt('    test.assertExists('+selector+');');
-    this.stmt('});');
+  this.stmt('.assert.elementPresent('+selector+')');
 }
 
 NightwatchRenderer.prototype.checkEnabled = function(item) {
@@ -481,13 +437,8 @@ NightwatchRenderer.prototype.checkImageSrc = function(item) {
 }
 
 NightwatchRenderer.prototype.waitAndTestSelector = function(selector) {
-  this.stmt('casper.waitForSelector(' + selector + ',');
-  this.stmt('    function success() {');
-  this.stmt('        test.assertExists(' + selector + ');')
-  this.stmt('      },');
-  this.stmt('    function fail() {');
-  this.stmt('        test.assertExists(' + selector + ');')
-  this.stmt('});');
+  this.stmt('.waitForElementPresent(' + selector + ')', 3);
+  this.stmt('.assert.elementPresent(' + selector + ')', 3);
 }
 
 var dt = new NightwatchRenderer(document);
