@@ -49,7 +49,7 @@ NightwatchRenderer.prototype.text = function(txt) {
 
 NightwatchRenderer.prototype.stmt = function(text, indent) {
   if(indent==undefined) indent = 1;
-  var output = (new Array(4*indent)).join(" ") + text;
+  var output = (new Array(2*indent)).join(" ") + text;
   this.document.writeln(output);
 }
 
@@ -130,7 +130,6 @@ NightwatchRenderer.prototype.render = function(with_xy) {
   this.with_xy = with_xy;
   var etypes = EventTypes;
   this.document.open();
-  this.document.writeln('<button id="casperbox-button">Run it on Casperbox</button>');
   this.document.write("<" + "pre" + ">");
   this.writeHeader();
   var last_down = null;
@@ -192,15 +191,17 @@ NightwatchRenderer.prototype.render = function(with_xy) {
 NightwatchRenderer.prototype.writeHeader = function() {
   var date = new Date();
   this.text("/*==============================================================================*/", 0);
-  this.text("/* Casper generated " + date + " */", 0);
+  this.text("/* Nightwatch Recorder generated " + date + " */", 0);
   this.text("/*==============================================================================*/", 0);
   this.space();
-  this.stmt("var x = require('casper').selectXPath;", 0);
+  this.stmt("module.exports = {", 0);
+  this.stmt("'test case': function(client) {", 1);
+  this.stmt("return client", 2);
 }
 NightwatchRenderer.prototype.writeFooter = function() {
     this.space();
-    this.stmt("casper.run(function() {test.done();});");
-    this.stmt("});", 0);
+    this.stmt("}", 1);
+    this.stmt("};", 0);
   }
 NightwatchRenderer.prototype.rewriteUrl = function(url) {
   return url;
@@ -212,30 +213,31 @@ NightwatchRenderer.prototype.shortUrl = function(url) {
 
 NightwatchRenderer.prototype.startUrl = function(item) {
   var url = this.pyrepr(this.rewriteUrl(item.url));
-  this.stmt("casper.options.viewportSize = {width: "+item.width+", height: "+item.height+"};", 0);
-  this.stmt("casper.on('page.error', function(msg, trace) {", 0);
-  this.stmt("this.echo('Error: ' + msg, 'ERROR');", 1);
-  this.stmt("for(var i=0; i&lt;trace.length; i++) {", 1);
-  this.stmt("var step = trace[i];", 2);
-  this.stmt("this.echo('   ' + step.file + ' (line ' + step.line + ')', 'ERROR');", 2);
-  this.stmt("}", 1);
-  this.stmt("});", 0);
-  this.stmt("casper.test.begin('Resurrectio test', function(test) {", 0);
-  this.stmt("casper.start(" + url + ");");        
+  this.stmt(".resizeWindow("+item.width+", "+item.height+")", 3);
+  //this.stmt("casper.on('page.error', function(msg, trace) {", 0);
+  //this.stmt("this.echo('Error: ' + msg, 'ERROR');", 1);
+  //this.stmt("for(var i=0; i&lt;trace.length; i++) {", 1);
+  //this.stmt("var step = trace[i];", 2);
+  //this.stmt("this.echo('   ' + step.file + ' (line ' + step.line + ')', 'ERROR');", 2);
+  //this.stmt("}", 1);
+  //this.stmt("});", 0);
+  //this.stmt("casper.test.begin('Resurrectio test', function(test) {", 0);
+  //this.stmt("casper.start(" + url + ");");
 }
 NightwatchRenderer.prototype.openUrl = function(item) {
   var url = this.pyrepr(this.rewriteUrl(item.url));
-  var history = this.history;
-  // if the user apparently hit the back button, render the event as such
-  if (url == history[history.length - 2]) {
-    this.stmt('casper.then(function() {');
-    this.stmt('    this.back();');
-    this.stmt('});');
-    history.pop();
-    history.pop();
-  } else {
-    this.stmt("casper.thenOpen(" + url + ");");
-  }
+  this.stmt(".url('"+item.width+", "+item.height+"')", 3);
+  //var history = this.history;
+  //// if the user apparently hit the back button, render the event as such
+  //if (url == history[history.length - 2]) {
+  //  this.stmt('casper.then(function() {');
+  //  this.stmt('    this.back();');
+  //  this.stmt('});');
+  //  history.pop();
+  //  history.pop();
+  //} else {
+  //  this.stmt("casper.thenOpen(" + url + ");");
+  //}
 }
 
 NightwatchRenderer.prototype.pageLoad = function(item) {
@@ -322,14 +324,16 @@ NightwatchRenderer.prototype.click = function(item) {
     } else {
       selector = '"' + item.info.selector + '"';
     }
-    this.stmt('casper.waitForSelector('+ selector + ',');
-    this.stmt('    function success() {');
-    this.stmt('        test.assertExists('+ selector + ');');
-    this.stmt('        this.click('+ selector + ');');
-    this.stmt('    },');
-    this.stmt('    function fail() {');
-    this.stmt('        test.assertExists(' + selector + ');')
-    this.stmt('});');
+    this.stmt('.waitForElementPresent('+ selector + ')', 3);
+    this.stmt('.click('+ selector + ')', 3);
+    //this.stmt('casper.waitForSelector('+ selector + ',');
+    //this.stmt('    function success() {');
+    //this.stmt('        test.assertExists('+ selector + ');');
+    //this.stmt('        this.click('+ selector + ');');
+    //this.stmt('    },');
+    //this.stmt('    function fail() {');
+    //this.stmt('        test.assertExists(' + selector + ');')
+    //this.stmt('});');
   }
 }
 
@@ -349,14 +353,16 @@ NightwatchRenderer.prototype.getFormSelector = function(item) {
 
 NightwatchRenderer.prototype.keypress = function(item) {
   var text = item.text.replace('\n','').replace('\r', '\\r');
+  this.stmt('.waitForElementPresent("' + this.getControl(item) + '")', 3);
+  this.stmt('.setValue("' + this.getControl(item) + '", "' + text + '")', 3);
 
-  this.stmt('casper.waitForSelector("' + this.getControl(item) + '",');
-  this.stmt('    function success() {');
-  this.stmt('        this.sendKeys("' + this.getControl(item) + '", "' + text + '");');
-  this.stmt('    },');
-  this.stmt('    function fail() {');
-  this.stmt('        test.assertExists("' + this.getControl(item) + '");')
-  this.stmt('});');
+  //this.stmt('casper.waitForSelector("' + this.getControl(item) + '",');
+  //this.stmt('    function success() {');
+  //this.stmt('        this.sendKeys("' + this.getControl(item) + '", "' + text + '");');
+  //this.stmt('    },');
+  //this.stmt('    function fail() {');
+  //this.stmt('        test.assertExists("' + this.getControl(item) + '");')
+  //this.stmt('});');
 }
 
 NightwatchRenderer.prototype.submit = function(item) {
@@ -483,20 +489,6 @@ NightwatchRenderer.prototype.waitAndTestSelector = function(selector) {
   this.stmt('        test.assertExists(' + selector + ');')
   this.stmt('});');
 }
-NightwatchRenderer.prototype.postToCasperbox = function() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://api.casperbox.com/scripts', true); 
-  xhr.onload = function() {
-    if (this.status == 202) {
-      response = JSON.parse(this.responseText);
-      window.open('http://ide.casperbox.com/?' + response.id);  
-    } else {
-      alert("Error "+this.status);
-    }
-    
-  };
-  xhr.send(document.getElementsByTagName('pre')[0].innerText);
-}
 
 var dt = new NightwatchRenderer(document);
 window.onload = function onpageload() {
@@ -507,8 +499,5 @@ window.onload = function onpageload() {
   chrome.runtime.sendMessage({action: "get_items"}, function(response) {
       dt.items = response.items;
       dt.render(with_xy);
-      document.getElementById("casperbox-button").onclick = function() {
-        dt.postToCasperbox();
-      };
   });
 };
