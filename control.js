@@ -127,9 +127,9 @@ RecorderUI.prototype.hidecomment = function(bsave) {
 
 RecorderUI.prototype.export = function(options) {
   if(options && options.xy) {
-    chrome.tabs.create({url: "./casper.html?xy=true"});
+    chrome.tabs.create({url: "./nightwatch.html?xy=true"});
   } else {
-    chrome.tabs.create({url: "./casper.html"});
+    chrome.tabs.create({url: "./nightwatch.html"});
   }
 }
 RecorderUI.prototype.exportdoc = function(bexport) {
