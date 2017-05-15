@@ -310,7 +310,7 @@ NightwatchRenderer.prototype.click = function(item) {
     xpath_selector && this.stmt('.useXpath()');
     this.stmt('.waitForElementPresent('+ selector + ')', 3);
     this.stmt('.click('+ selector + ')', 3);
-    xpath_selector && this.stmt('.useXpath()');
+    xpath_selector && this.stmt('.useCss()');
   }
 }
 
