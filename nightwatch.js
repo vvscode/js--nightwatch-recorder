@@ -308,8 +308,9 @@ NightwatchRenderer.prototype.click = function(item) {
       selector = '"' + item.info.selector + '"';
     }
     xpath_selector && this.stmt('.useXpath()');
-    this.stmt('.waitForElementPresent('+ selector + ')', 3);
-    this.stmt('.click('+ selector + ')', 3);
+    console.log("xpath: " + selector);
+    this.stmt('.waitForElementVisible('+ selector + ', 5000)', 3);
+    this.stmt('.customClick('+ selector + ')', 3);
     xpath_selector && this.stmt('.useCss()');
   }
 }
@@ -330,7 +331,8 @@ NightwatchRenderer.prototype.getFormSelector = function(item) {
 
 NightwatchRenderer.prototype.keypress = function(item) {
   var text = item.text.replace('\n','').replace('\r', '\\r');
-  this.stmt('.waitForElementPresent("' + this.getControl(item) + '")', 3);
+  console.log("key: " + text);
+  this.stmt('.waitForElementVisible("' + this.getControl(item) + '", 5000)', 3);
   this.stmt('.setValue("' + this.getControl(item) + '", "' + text + '")', 3);
 }
 
@@ -357,7 +359,8 @@ NightwatchRenderer.prototype.comment = function(item) {
 
 NightwatchRenderer.prototype.checkPageTitle = function(item) {
   var title = this.pyrepr(item.title, true);
-  this.stmt('.assert.title(' + title + ')', 3);
+  // CM: this.stmt('.assert.title(' + title + ')', 3);
+  this.stmt('.expect.element("title").text.to.equal(' + title + ')', 3);
 }
 
 NightwatchRenderer.prototype.checkPageLocation = function(item) {
@@ -410,7 +413,8 @@ NightwatchRenderer.prototype.checkHref = function(item) {
     selector = item.info.selector+'[href='+ href +']';
   }
   xpath_selector && this.stmt('.useXpath()');
-  this.stmt('.assert.elementPresent('+selector+')');
+  // CM: this.stmt('.assert.elementPresent('+selector+')');
+  this.stmt('expect.element(' + selector + ').to.be.visible');
   xpath_selector && this.stmt('.useCss()');
 }
 
@@ -443,8 +447,9 @@ NightwatchRenderer.prototype.checkImageSrc = function(item) {
 
 NightwatchRenderer.prototype.waitAndTestSelector = function(selector, xpathSelector) {
   xpathSelector && this.stmt('.useXpath()');
-  this.stmt('.waitForElementPresent(' + selector + ')', 3);
-  this.stmt('.assert.elementPresent(' + selector + ')', 3);
+  console.log("wait and test selector");
+  this.stmt('.waitForElementVisible(' + selector + ', 5000)', 3);
+  this.stmt('.expect.element(' + selector + ').visible(' + selector + ')', 3);
   xpathSelector && this.stmt('.useCss()');
 }
 
