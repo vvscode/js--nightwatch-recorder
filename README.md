@@ -1,9 +1,7 @@
 Nightwatch.js test recorder extension for Google Chrome
 ===========
 
-Based on [Ressurectio](https://github.com/ebrehault/resurrectio.git)
-
-[RUS](README-RUS.md)
+[RUS](README-RUS.md) | Based on [Ressurectio](https://github.com/ebrehault/resurrectio.git)
 
 Installation
 ============
@@ -54,10 +52,3 @@ Author
 * Eric BREHAULT <eric.brehault@makina-corpus.org>
 
 * Resurrectio event recorder is based on the zope.recorder tool, created by Brian Lloyd <brian@zope.com>
-
-
-
-.. image:: https://d2weczhvl823v0.cloudfront.net/vvs-code/nightwatch-recorder/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
-
