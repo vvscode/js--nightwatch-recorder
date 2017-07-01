@@ -1,14 +1,14 @@
 {
-  "name": "Resurrectio",
+  "name": "Nightwatch.js test recorder",
   "version": "0.5",
   "manifest_version": 2,
   "description": "Functional-oriented and javascript-friendly test recorder. Exports NightwatchJS scripts. Supports screenshots.",
-  "icons": {"48": "makina-icon.png",
-          "128": "makina-icon-128.png" },
+  "icons": {"48": "icon.png",
+          "128": "icon-128.png" },
   "browser_action": {
-    "default_icon": "makina-icon.png",
+    "default_icon": "icon.png",
     "default_popup": "control.html",
-    "default_title": "NightwatchJS test recorder"
+    "default_title": "Nightwatch.js test recorder"
   },
   "background": {
     "scripts": ["background.js"]
