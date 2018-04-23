@@ -3,7 +3,7 @@
 // test format.
 // ---------------------------------------------------------------------------
 
-if (typeof(EventTypes) == "undefined") {
+if (typeof EventTypes == "undefined") {
   EventTypes = {};
 }
 
@@ -38,28 +38,28 @@ function DocumentRenderer(document) {
 DocumentRenderer.prototype.text = function(txt) {
   // todo: long lines
   this.document.writeln(txt);
-}
+};
 
 DocumentRenderer.prototype.stmt = function(text) {
   this.document.writeln(text);
-}
+};
 
 DocumentRenderer.prototype.cont = function(text) {
   this.document.writeln("    ... " + text);
-}
+};
 
 DocumentRenderer.prototype.pyout = function(text) {
   this.document.writeln("    " + text);
-}
+};
 
 DocumentRenderer.prototype.pyrepr = function(text) {
   // todo: handle non--strings & quoting
   return "'" + text + "'";
-}
+};
 
 DocumentRenderer.prototype.space = function() {
   this.document.write("\n");
-}
+};
 
 var d = {};
 d[EventTypes.Comment] = "comment";
@@ -74,7 +74,7 @@ DocumentRenderer.prototype.render = function() {
   this.document.write("<" + "pre" + ">");
   this.writeHeader();
 
-  for (var i=0; i < this.items.length; i++) {
+  for (var i = 0; i < this.items.length; i++) {
     var item = this.items[i];
     if (this.dispatch[item.type]) {
       this[this.dispatch[item.type]](item);
@@ -83,37 +83,42 @@ DocumentRenderer.prototype.render = function() {
   this.writeFooter();
   this.document.write("<" + "/" + "pre" + ">");
   this.document.close();
-}
+};
 
 DocumentRenderer.prototype.writeHeader = function() {
   var date = new Date();
   this.text("Document generated " + date);
-  this.text("==============================================================================");
+  this.text(
+    "=============================================================================="
+  );
   this.space();
-}
+};
 DocumentRenderer.prototype.writeFooter = function() {
   this.space();
-}
+};
 
 DocumentRenderer.prototype.normalizeWhitespace = function(s) {
-  return s.replace(/^\s*/, '').replace(/\s*$/, '').replace(/\s+/g, ' ');
-}
+  return s
+    .replace(/^\s*/, "")
+    .replace(/\s*$/, "")
+    .replace(/\s+/g, " ");
+};
 
 DocumentRenderer.prototype.screenShot = function(item) {
-  this.stmt('.. image:: screenshot'+this.screen_id+'.png');
+  this.stmt(".. image:: screenshot" + this.screen_id + ".png");
   this.space();
   this.screen_id = this.screen_id + 1;
-}
+};
 
 DocumentRenderer.prototype.comment = function(item) {
   this.text(item.text);
   this.space();
-}
+};
 
 var dt = new DocumentRenderer(document);
 window.onload = function onpageload() {
-    chrome.runtime.sendMessage({action: "get_items"}, function(response) {
-        dt.items = response.items;
-        dt.render();
-    });
+  chrome.runtime.sendMessage({ action: "get_items" }, function(response) {
+    dt.items = response.items;
+    dt.render();
+  });
 };

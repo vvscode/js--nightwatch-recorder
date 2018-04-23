@@ -1,35 +1,82 @@
 <html>
-<head>
+  <head>
+    <title>NightwatchJS Test Recorder</title>
 
-<title>NightwatchJS Test Recorder</title>
+    <link rel="stylesheet" type="text/css" href="./style.css" />
 
-<link rel="stylesheet" type="text/css" href="./style.css" />
-
-<script src="control.js"></script>
-</head>
-<body>
-<form name="control">
-<div><strong>URL:</strong>
-  <input type="text" size="80" name="url" /> 
-  <input type="submit" id="bgo" name="submit" value=" Go >" />
-  <input type="submit" id="bstop" name="bstop" value="Stop Recording" style="display:none;" /> 
-  <input type="submit" id="bcomment" name="bcomment" value="Add Comment" style="display: none;" />
-  <input type="submit" id="bexport" name="bexport" value="Export NightwatchJS" style="display: none;" />
-  <input type="submit" id="bexportxy" name="bexportxy" value="Export NightwatchJS with (x,y) coords" style="display: none;" />
-  <input type="submit" id="bdoc" name="bdoc" value="Export doc" style="display: none;" /> 
-</div> 
-<div id="comment" style="display:none">
-  <strong>Comment:</strong> 
-  <textarea id="ctext" id="ctext" name="ctext" rows="8" cols="80" placeholder="Comment"></textarea>
-  <br />
-  <input type="submit" id="bsavecomment" name="c1" value=" Save " /> 
-  <input type="submit" id="bcancelcomment" name="c2" value=" Cancel " />
-</div>
-</form>
-<div id="logo"></div>
-<p class="tagline">
-    <a href="https://github.com/ebrehault/resurrectio" target="_new">Resurrectio</a> - 
-    <span id="tagline">Every phantom deserves a resurrection.</span>
-    <a href="http://www.makina-corpus.com" target="_new" title="Makina Corpus"><img alt="Makina Corpus" src="./makina-corpus.png" /></a></p>
-</body>
-</html>
+    <script src="control.js" />
+  </head>
+  <body>
+    <form name="control">
+      <div>
+        <strong>URL:</strong>
+        <input type="text" size="80" name="url" />
+        <input type="submit" id="bgo" name="submit" value=" Go >" />
+        <input
+          type="submit"
+          id="bstop"
+          name="bstop"
+          value="Stop Recording"
+          style="display:none;"
+        />
+        <input
+          type="submit"
+          id="bcomment"
+          name="bcomment"
+          value="Add Comment"
+          style="display: none;"
+        />
+        <input
+          type="submit"
+          id="bexport"
+          name="bexport"
+          value="Export NightwatchJS"
+          style="display: none;"
+        />
+        <input
+          type="submit"
+          id="bexportxy"
+          name="bexportxy"
+          value="Export NightwatchJS with (x,y) coords"
+          style="display: none;"
+        />
+        <input
+          type="submit"
+          id="bdoc"
+          name="bdoc"
+          value="Export doc"
+          style="display: none;"
+        />
+      </div>
+      <div id="comment" style="display:none">
+        <strong>Comment:</strong>
+        <textarea
+          id="ctext"
+          id="ctext"
+          name="ctext"
+          rows="8"
+          cols="80"
+          placeholder="Comment"
+        />
+        <br />
+        <input type="submit" id="bsavecomment" name="c1" value=" Save " />
+        <input type="submit" id="bcancelcomment" name="c2" value=" Cancel " />
+      </div>
+    </form>
+    <div id="logo" />
+    <p class="tagline">
+      <a href="https://github.com/ebrehault/resurrectio" target="_new">
+        Resurrectio
+      </a>{" "}
+      -
+      <span id="tagline">Every phantom deserves a resurrection.</span>
+      <a
+        href="http://www.makina-corpus.com"
+        target="_new"
+        title="Makina Corpus"
+      >
+        <img alt="Makina Corpus" src="./makina-corpus.png" />
+      </a>
+    </p>
+  </body>
+</html>;
