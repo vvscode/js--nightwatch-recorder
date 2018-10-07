@@ -1,0 +1,22 @@
+{
+  "name": "js--nightwatch-recorder",
+  "version": "1.0.0",
+  "description": "Nightwatch.js test recorder extension for Google Chrome\r ===========",
+  "main": "nightwatch.js",
+  "scripts": {
+    "test": "mocha ./tests/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhilippeChab/js--nightwatch-recorder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhilippeChab/js--nightwatch-recorder/issues"
+  },
+  "homepage": "https://github.com/PhilippeChab/js--nightwatch-recorder#readme",
+  "dependencies": {
+    "mocha": "^5.2.0"
+  }
+}

@@ -1,3 +1,8 @@
 *.zip
 *.sublime-project
 *.sublime-workspace
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/js--nightwatch-recorder.iml
