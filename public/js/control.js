@@ -134,13 +134,13 @@ RecorderUI.prototype.hidecomment = function(bsave) {
 
 RecorderUI.prototype.export = function(options) {
   if (options && options.xy) {
-    chrome.tabs.create({ url: "./nightwatch.html?xy=true" });
+    chrome.tabs.create({ url: "./public/views/nightwatch.html?xy=true" });
   } else {
-    chrome.tabs.create({ url: "./nightwatch.html" });
+    chrome.tabs.create({ url: "./public/views/nightwatch.html" });
   }
 };
 RecorderUI.prototype.exportdoc = function(bexport) {
-  chrome.tabs.create({ url: "./doc.html" });
+  chrome.tabs.create({ url: "./public/views/doc.html" });
 };
 
 var ui;
