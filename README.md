@@ -52,3 +52,7 @@ Author
 * Eric BREHAULT <eric.brehault@makina-corpus.org>
 
 * Resurrectio event recorder is based on the zope.recorder tool, created by Brian Lloyd <brian@zope.com>
+
+Contributors
+------
+[Athyk](https://github.com/Athyk)
