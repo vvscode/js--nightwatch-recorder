@@ -42,3 +42,7 @@ TODO
 * Eric BREHAULT <eric.brehault@makina-corpus.org> -- автор расширения
 
 * Brian Lloyd <brian@zope.com> -- автор zope.recorder, инструмента для записи событий в основе расширения
+
+авторы
+------
+[Athyk](https://github.com/Athyk)
