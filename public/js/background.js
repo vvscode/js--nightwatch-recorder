@@ -1,4 +1,4 @@
-var testcase_items = new Array();
+var testcase_items = [];
 var active = false;
 var empty = true;
 var tab_id = null;
@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (!active) {
       active = true;
       empty = true;
-      testcase_items = new Array();
+      testcase_items = [];
       tab_id = request.recorded_tab;
       chrome.tabs.update(tab_id, { url: request.start_url }, function(tab) {
         alert("You are now recording your test sequence.");

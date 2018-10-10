@@ -37,8 +37,8 @@ function NightwatchRenderer(document) {
   this.document = document;
   this.title = "Testcase";
   this.items = null;
-  this.history = new Array();
-  this.last_events = new Array();
+  this.history = [];
+  this.last_events = [];
   this.screen_id = 1;
   this.unamed_element_id = 1;
 }

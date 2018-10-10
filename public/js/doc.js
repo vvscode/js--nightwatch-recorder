@@ -31,7 +31,7 @@ function DocumentRenderer(document) {
   this.document = document;
   this.title = "Testcase";
   this.items = null;
-  this.history = new Array();
+  this.history = [];
   this.screen_id = 1;
 }
 

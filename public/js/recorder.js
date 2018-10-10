@@ -224,7 +224,7 @@ TestRecorder.TestCase = function() {
   this.title = "Test Case";
   // maybe some items are already stored in the background
   // but we do not need them here anyway
-  this.items = new Array();
+  this.items = [];
 };
 
 TestRecorder.TestCase.prototype.append = function(o) {
