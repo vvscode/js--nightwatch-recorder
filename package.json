@@ -4,7 +4,9 @@
   "description": "Nightwatch.js test recorder extension for Google Chrome\r ===========",
   "main": "nightwatch.js",
   "scripts": {
-    "test": "mocha ./tests/tests.js"
+    "test": "mocha ./tests/tests.js",
+    "prettier": "prettier --list-different ./**/*.js ./public/**/*.js",
+    "lint": "jshint ./**/*.js ./public/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,8 @@
   },
   "homepage": "https://github.com/PhilippeChab/js--nightwatch-recorder#readme",
   "dependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "prettier": "^1.14.3",
+    "jshint": "^2.9.6"
   }
 }

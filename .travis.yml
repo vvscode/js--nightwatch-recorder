@@ -6,3 +6,5 @@ cache:
     - node_modules
 script:
   - npm test
+  - npm prettier
+  - npm lint
