@@ -5,8 +5,9 @@
   "main": "nightwatch.js",
   "scripts": {
     "test": "mocha ./tests/tests.js",
-    "prettier": "prettier --list-different ./**/*.js ./public/**/*.js",
-    "lint": "jshint ./**/*.js ./public/**/*.js"
+    "prettier": "prettier --write ./**/*.js ./public/**/*.js",
+    "lint": "eslint ./**/*.js ./public/**/*.js",
+    "setup": "git config core.hooksPath hooks"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,6 @@
   "dependencies": {
     "mocha": "^5.2.0",
     "prettier": "^1.14.3",
-    "jshint": "^2.9.6"
+    "eslint": "^5.6.1"
   }
 }
