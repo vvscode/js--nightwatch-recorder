@@ -1,7 +1,4 @@
-foo(
-  reallyLongArg(),
-  omgSoManyParameters(),
-  IShouldRefactorThis(),
+foo(reallyLongArg(),omgSoManyParameters(),IShouldRefactorThis(),
   isThereSeriouslyAnotherOne()
 );
 foo(
@@ -12,5 +9,5 @@ foo(
 );
 
 var test = {
-  test: 1
+  test: 1,
 };
