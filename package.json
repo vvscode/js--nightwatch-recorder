@@ -4,7 +4,10 @@
   "description": "Nightwatch.js test recorder extension for Google Chrome\r ===========",
   "main": "nightwatch.js",
   "scripts": {
-    "test": "mocha ./tests/tests.js"
+    "test": "mocha ./tests/tests.js",
+    "prettier": "prettier --write ./**/*.js ./public/**/*.js",
+    "lint": "eslint ./**/*.js ./public/**/*.js",
+    "lint-staged": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,24 @@
   },
   "homepage": "https://github.com/PhilippeChab/js--nightwatch-recorder#readme",
   "dependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "prettier": "^1.14.3",
+    "eslint": "^5.6.1",
+    "lint-staged": "7.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "husky": "v1.0.0-rc.13"
   }
 }
