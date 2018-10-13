@@ -6,8 +6,7 @@
   "scripts": {
     "test": "mocha ./tests/tests.js",
     "prettier": "prettier --write ./**/*.js ./public/**/*.js",
-    "lint": "eslint ./**/*.js ./public/**/*.js",
-    "setup": "git config core.hooksPath hooks"
+    "lint": "eslint ./**/*.js ./public/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +21,16 @@
   "dependencies": {
     "mocha": "^5.2.0",
     "prettier": "^1.14.3",
-    "eslint": "^5.6.1"
+    "eslint": "^5.6.1",
+    "lint-staged": "7.3.0",
+    "husky": "0.11.2"
+  },
+  "husky" : {
+    "hooks" : {
+      "pre-commit" : "lint-staged"
+    }
+  },
+  "lint-staged" :{
+    "*.js": ["eslint", "prettier --write", "git add"]
   }
 }
