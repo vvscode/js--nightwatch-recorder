@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha ./tests/tests.js",
     "prettier": "prettier --write ./**/*.js ./public/**/*.js",
-    "lint": "eslint ./**/*.js ./public/**/*.js"
+    "lint": "eslint ./**/*.js ./public/**/*.js",
+    "lint-staged": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -22,15 +23,21 @@
     "mocha": "^5.2.0",
     "prettier": "^1.14.3",
     "eslint": "^5.6.1",
-    "lint-staged": "7.3.0",
-    "husky": "0.11.2"
+    "lint-staged": "7.3.0"
   },
-  "husky" : {
-    "hooks" : {
-      "pre-commit" : "lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   },
-  "lint-staged" :{
-    "*.js": ["eslint", "prettier --write", "git add"]
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "husky": "v1.0.0-rc.13"
   }
 }
