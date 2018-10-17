@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha ./tests/tests.js",
     "prettier": "prettier --write ./**/*.js ./public/**/*.js",
+    "prettier-test": "prettier --list-different ./**/*.js ./public/**/*.js",
     "lint": "eslint ./**/*.js ./public/**/*.js",
     "lint-staged": "lint-staged"
   },
